@@ -1,0 +1,17 @@
+//Capture the XML source
+import com.eviware.soapui.impl.wsdl.teststeps.*
+
+def fileList = []
+new File("/Users/ryanconklin/Desktop/EPMXmlOutput/").eachFile { f ->
+if (f.isFile() && f.name.endsWith('.xml')) {   
+   def fileName = f.name[0..-5]
+     fileList.add(fileName)
+     log.info fileName + ".xml Has been loaded"
+}
+}
+if (fileList.size() < 1) {
+   testRunner.fail("No request files found")
+} else {
+	log.info ("No more .xml files to load")
+}
+context.put('fileList', fileList)
