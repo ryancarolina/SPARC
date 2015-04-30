@@ -1,0 +1,36 @@
+//Output the response, remove the request from stack, loop back to start
+import com.eviware.soapui.impl.wsdl.teststeps.*
+
+def fileList = context.get('fileList')
+def fileName = fileList.pop()
+log.info "Grabbing " + fileName + ".xml"
+def response = context.expand( '${Test Request#Response}' )
+//def f = new File("/Users/ryanconklin/Desktop/TestOutput/${fileName}_Response.xml")
+//f.write(response, "UTF-8")
+//log.info "Finished writing " + fileName + "_Response.xml"
+
+
+def lastResult = testRunner.getResults().last()
+def lastResultName = lastResult.getTestStep().getLabel().toString()
+def lastResultStatus = lastResult.getStatus().toString()
+
+log.info 'Test Step [' + lastResultName + '] status: ' + lastResultStatus
+
+if( lastResultStatus == 'FAILED' )
+{
+   def f = new File("/Users/ryanconklin/Desktop/EPMTestOutput/${fileName}_FailedResponse.xml")
+	f.write(response, "UTF-8")
+	log.info "Finished writing " + fileName + "_FailedResponse.xml"
+}
+else
+{
+   def f = new File("/Users/ryanconklin/Desktop/EPMTestOutput/${fileName}_PassResponse.xml")
+	f.write(response, "UTF-8")
+	log.info "Finished writing " + fileName + "_PassResponse.xml"
+}
+
+if (fileList.size() > 0) {
+   testRunner.gotoStepByName('Test Request')
+} else {
+	log.info ("No more files in fileList")
+}
