@@ -1,0 +1,7 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:v1="http://des.usps.com/webservice/epmWebService/v1" xmlns:v2="http://des.usps.com/model/shared/v2">
+    <soapenv:Header/>
+    <soapenv:Body>
+        ${=new File("/Users/ryanconklin/Desktop/EPMXmlOutput/" + (context.get('fileList')).last() +".xml").text}
+    </soapenv:Body>
+</soapenv:Envelope>
