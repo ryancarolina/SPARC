@@ -1,0 +1,75 @@
+/*
+9.29.14
+Ryan Conklin
+Groovy control script with AVG
+*/
+
+import com.eviware.soapui.impl.wsdl.teststeps.*
+
+//Hold message exchange value in ms
+def findAvg = [];
+
+//Loop entire script
+for(int r = 0; r < 100; r++){
+
+def testDataSet = [];
+
+//def fileName = "/Users/ryanconklin/Desktop/USPS/ControlScript_CSV/MP_PerformanceTest_111014.csv" 
+def fileName = "/Users/ryanconklin/Desktop/USPS/ControlScript_CSV/EPM_PerformanceTest_111014.csv" 
+
+
+new File(fileName).eachLine { line -> testDataSet.add( line.split(",") ) }
+
+//def th = Thread.start() //For when its time to start a new thread
+
+//Loop over the array for however many Test steps are in the array
+for (int i = 0; i < testDataSet.size; i++) {
+	log.info("testDataSet[i] = " + testDataSet[i]);
+
+	//Run teststep based on location in array
+	def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context );
+	def testCase = testRunner.testCase;
+	log.info("testCase = " + testCase);
+	log.info("testCase.getLabel() = " + testCase.getLabel());
+
+	//Thanks Ben! // This needs to be refactored // Remove the appended []
+	def testDataSetString = testDataSet[i].toString();
+	testDataSetString = testDataSetString.replace("[", "");
+	testDataSetString = testDataSetString.replace("]", "");
+	log.info("testDataSetString = " + testDataSetString);
+
+
+	def testStep = testCase.getTestStepByName(testDataSetString);
+
+
+	log.info("Starting" + " " + testStep.getLabel());	
+
+	testRunner = new com.eviware.soapui.impl.wsdl.testcase.WsdlTestCaseRunner(testCase, null);
+	testStepContext = new com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext(testStep);
+	testStepResult = testStep.run(testRunner, testStepContext);
+
+	//add time taken in ms to findAvg Array
+	def timeTaken = testStepResult.getTimeTaken();
+	findAvg.add(r, timeTaken);
+	
+	log.info("Finished Loop" + " " + r + " " + testStep.getLabel());
+	log.info("Trip Time " + " " + testStepResult.getTimeTaken());
+	log.info("---------------------------------");
+	
+	
+}
+
+
+int sum = 0;
+               
+for(int s = 0; s < findAvg.size ; s++)
+    sum = sum + findAvg[s];
+               
+    //calculate average value
+    double average = sum / findAvg.size;
+    log.info("AVG " + average);
+
+
+
+
+};
