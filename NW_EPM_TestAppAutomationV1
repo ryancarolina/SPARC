@@ -1,0 +1,30 @@
+/*
+EPM Client Test v1.0
+Ryan Conklin
+06/24/15
+*/
+
+module.exports = {
+  "EPM Client Test" : function (browser) {
+    browser
+      .url("localhost:9000")
+      .waitForElementVisible('input#requesterAccountIdV1', 1000)
+      .setValue('input#requesterAccountIdV1[type=text]', '123456')
+      .waitForElementVisible('input#billingAccountIdV1', 1000)
+      .setValue('input#billingAccountIdV1[type=text]', '123456')
+      .pause(1000)
+      .waitForElementVisible('select#epmPayloadCategoryV1', 1000)
+      .click('select#epmPayloadCategoryV1')
+      .waitForElementVisible('option[value="GENERAL"]', 1000)
+      .click('option[value="GENERAL')
+      .waitForElementVisible('input#generateEpmV1file', 1000)
+      .setValue('input#generateEpmV1file', require('path').resolve(__dirname, '/Users/ryanconklin/Downloads/CBTitlePage.jpg'))
+      .pause(1000)
+      .click('button#generateEpmV1Btn')
+      //.end();
+  }
+};
+
+
+
+
