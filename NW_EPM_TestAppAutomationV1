@@ -2,6 +2,7 @@
 EPM Client Test v1.0
 Ryan Conklin
 06/24/15
+Nightwatch.js
 */
 
 module.exports = {
