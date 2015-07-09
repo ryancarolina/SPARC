@@ -1,0 +1,60 @@
+package com.usps.epm.ryan;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.junit.Assert;
+
+//EPM Test App EPM V1 Request Test
+public class RyanTest2 {
+	
+	public static void main(String[] args) throws Exception {
+		// Open firefox
+        WebDriver driver = new FirefoxDriver();
+        
+        // Load the test app
+        driver.get("http://96.127.74.68:9000/");
+        
+        // Enter the requester and billing account ID string
+        WebElement query = driver.findElement(By.id("requesterAccountIdV1"));
+        query.sendKeys("123456");
+        
+        WebElement query2 = driver.findElement(By.id("billingAccountIdV1"));
+        query2.sendKeys("123456");
+        
+        // Get the value of requesterID and billingID value after sendKeys
+        String queryValue = driver.findElement(By.id("requesterAccountIdV1")).getAttribute("value");
+        System.out.println("requesterAccountIdV1 value = " + queryValue);
+        
+        String queryValue2 = driver.findElement(By.id("billingAccountIdV1")).getAttribute("value");
+        System.out.println("billingAccountIdV1 value = " + queryValue2);
+        
+        Select dropdown = new Select(driver.findElement(By.id("epmPayloadCategoryV1")));
+        dropdown.selectByValue("GENERAL");
+        
+        WebElement fileInput = driver.findElement(By.id("generateEpmV1file"));
+        fileInput.sendKeys("/Users/ryanconklin/Downloads/CBTitlePage.jpg");
+        
+        driver.findElement(By.id("generateEpmV1MailPieceMetadataCheckBox")).click();
+        
+        driver.findElement(By.id("mailerIdV1")).sendKeys("123456");
+        driver.findElement(By.id("providerIdV1")).sendKeys("123456");
+        
+        driver.findElement(By.id("generateEpmV1Btn")).click();
+        
+      //Assert
+        if(Integer.parseInt(queryValue) == 123456 && (Integer.parseInt(queryValue2) == 123456)){
+        	System.out.println("Test Pass");
+        } else {
+        	System.out.println("Houston, we have a problem.");
+        }
+        
+        //driver.quit();
+    }
+}
+
+	
+
+
