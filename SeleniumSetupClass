@@ -1,0 +1,53 @@
+package com.usps.epm.sandbox.Ryan;
+
+//Using this setup while Gordon builds out his ObjectMap class and uses his Setup class to test with
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.After;
+import org.junit.Before;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+@SuppressWarnings("deprecation")
+public class RyanSetup 
+{
+	
+
+	static WebDriver driver;
+	
+	public static WebDriver getDriver(){
+		return driver;
+	}
+	
+	@Before
+	public void openFireFox() throws IOException 
+	{
+		try
+		{
+			driver = new FirefoxDriver();
+			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			
+			//Uncomment out environment
+			//Local
+			//driver.get("http://localhost:9000/");
+			//DEV
+			driver.get("http://96.127.74.68:9000/");
+			//driver.get("http://127.94.0.1:4444/wd/hub");
+			
+			//INT
+			//driver.get("http://96.127.74.68:9000/");
+		} catch (Exception e) {
+            System.out.println("Error during Test Steup" + e.toString());
+        }
+         
+		
+	}
+		
+	
+	@After
+	public void closeFirefox(){
+		//driver.quit();
+	}
+}
