@@ -1,0 +1,72 @@
+package com.usps.epm.sandbox.Ryan;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+//EPM Test App EPM V1 Request Test
+public class TestEpmV1RequestValidation extends RyanSetup {
+	
+
+	@Test
+	public void main(String[] args) throws Exception {
+		
+		String epmAttachment = "/Users/ryanconklin/git/USPS-EPM/usps-epm-functional-test/src/test/soap-ui/attachment-files/epm-test-document.docx";
+		
+		String requesterAccount = "123456";
+		
+		String billingAccount = "123456";
+        
+        //Get driver from Setup class
+      	WebDriver driver = RyanSetup.getDriver();
+        
+        // Enter the requester and billing account ID string
+        WebElement query = driver.findElement(By.id("requesterAccountIdV1"));
+        query.sendKeys(requesterAccount);
+        
+        WebElement query2 = driver.findElement(By.id("billingAccountIdV1"));
+        query2.sendKeys(billingAccount);
+        
+        Select dropdown = new Select(driver.findElement(By.id("epmPayloadCategoryV1")));
+        dropdown.selectByValue("GENERAL");
+        
+        driver.findElement(By.id("generateEpmV1file")).sendKeys(epmAttachment);
+        
+        driver.findElement(By.id("generateEpmV1MailPieceMetadataCheckBox")).click();
+        
+        driver.findElement(By.xpath("//*[@id='generateEpmV1form']/aside[2]/h1")).click();
+        
+        driver.findElement(By.id("mailerIdV1")).sendKeys(billingAccount);
+        
+        driver.findElement(By.id("providerIdV1")).sendKeys(billingAccount);
+        
+        driver.findElement(By.id("generateEpmV1Btn")).click();
+        
+        //TODO refactor to use an explicit wait
+        Thread.sleep(5000);
+        
+        driver.findElement(By.id("validateThisEpm")).click();
+        
+        //Enter path to file to upload for validation
+        driver.findElement(By.id("validateEpmPayloadV1")).sendKeys(epmAttachment);
+        
+        //Click validate epm button
+        driver.findElement(By.id("validateEpmV1Btn")).click();
+        
+        //Get the epmResponse
+        String epmResponse = driver.findElement(By.id("epmResponse")).getAttribute("value");
+        
+        //Assert that a response is returned
+        assertNotNull(epmResponse);
+        
+        //driver.quit();
+    }
+}
+
+	
+
+
