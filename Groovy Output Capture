@@ -2,7 +2,7 @@
 import com.eviware.soapui.impl.wsdl.teststeps.*
 
 def fileList = context.get('fileList')
-def fileName = fileList.pop()
+def fileName = fileList.pop() //removing last element from the list
 log.info "Grabbing " + fileName + ".xml"
 def response = context.expand( '${Test Request#Response}' )
 //def f = new File("/Users/ryanconklin/Desktop/TestOutput/${fileName}_Response.xml")
