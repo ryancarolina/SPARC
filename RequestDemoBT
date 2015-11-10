@@ -1,0 +1,74 @@
+package com.usps.epm.sandbox.Ryan;
+
+
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ * Created by ryanconklin on 11/10/15.
+ */
+public class RyanTest2 {
+
+    @Test
+    public void mainTest(){
+
+        //Create a new Firefox Driver
+        WebDriver driver = new FirefoxDriver();
+
+        //Drive to the Boomtown site
+        driver.get("http://boomtownroi.com/");
+
+        //Cool your jets and wait! Driver waits for 5 seconds or the visibility of "DEMO" Button
+        WebDriverWait waitDemo = new WebDriverWait(driver,5);
+        waitDemo.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/header/nav/div/div[2]/ul[2]/a")));
+
+        //Locate and click the "DEMO" button
+        driver.findElement(By.xpath("/html/body/header/nav/div/div[2]/ul[2]/a")).click();
+
+        //Locate and click the "Single Agent" element
+        driver.findElement(By.xpath("//*[@id=\"pardot-form\"]/p[1]/span/span[1]/label")).click();
+
+        //Locate and click the "500 Mil" element
+        driver.findElement(By.xpath("//*[@id=\"pardot-form\"]/p[2]/span/span[9]/label")).click();
+
+        //Locate and click dropdown, select "Trulia" value
+        Select dropDownLead = new Select(driver.findElement(By.xpath("//*[@id=\"71162_30406pi_71162_30406\"]")));
+        dropDownLead.selectByValue("618350");
+
+        //Locate text input and enter first name "Ryan"
+        driver.findElement(By.xpath("//*[@id=\"71162_29128pi_71162_29128\"]")).sendKeys("Ryan");
+
+        //Locate text input and enter last name "Conklin"
+        driver.findElement(By.xpath("//*[@id=\"71162_29130pi_71162_29130\"]")).sendKeys("Conklin");
+
+        //Locate text input and enter email "test@test.com"
+        driver.findElement(By.xpath("//*[@id=\"71162_29132pi_71162_29132\"]")).sendKeys("test@test.com");
+
+        //Locate text input and enter phone "555-5555"
+        driver.findElement(By.xpath("//*[@id=\"71162_29134pi_71162_29134\"]")).sendKeys("555-5555");
+
+        //Locate text input and enter company "Happy Homes"
+        driver.findElement(By.xpath("//*[@id=\"71162_29136pi_71162_29136\"]")).sendKeys("Happy Homes");
+
+        //Locate text input and enter city "Charleston"
+        driver.findElement(By.xpath("//*[@id=\"71162_29138pi_71162_29138\"]")).sendKeys("Charleston");
+
+        //Locate and click dropdown, select "SC" value
+        Select dropDownState = new Select(driver.findElement(By.xpath("//*[@id=\"71162_29140pi_71162_29140\"]")));
+        dropDownState.selectByValue("389616");
+
+        //Cool your jets and wait! Driver waits for 5 seconds or the visibility of submit
+        WebDriverWait waitSubmit = new WebDriverWait(driver,5);
+        waitSubmit.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#pardot-form > p.submit > input[type=\"submit\"]")));
+
+        //Locate and click submit
+        driver.findElement(By.cssSelector("#pardot-form > p.submit > input[type=\"submit\"]")).click();
+
+    }
+
+}
